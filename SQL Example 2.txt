@@ -1,0 +1,192 @@
+ create table emp
+   (
+   eid number(5) primary key,
+   ename varchar(20)
+   );
+   insert into emp values(101,'Ganesh');
+-------------------------------------------------------------------------
+create table Teacher
+(
+rollno number (5) primary key ,
+first_name varchar2(20) not null,  
+email_id varchar2(20),
+city varchar2(20)
+);
+insert into Teacher values(101 , 'Ganesh','ganesh@abc','Pune');
+select * from Teacher;
+/// new 
+create table emp2
+(
+empno number(5) primary key,
+first_name varchar2(20),
+salary number (5),
+city varchar2(20),
+deptno number(5)
+);
+insert into emp2 values(1,'Ganesh',120000,'Mumbai',10);
+insert into emp2 values(3,'Ajay',22000,'Pune',30);
+insert into emp2 values(5,'Raj',5000,'Ahmendabad',56);
+insert into emp2 values(8,'Pranali',5000,null,50);
+insert into emp2 values(9,'Ram',null,'Kharadi',78);
+-----------------------------------------------------------------
+
+// String Function
+select upper ('abcd'),lower('ABCD'),initcap('abcd'),length('abcd') from dual;
+select length(ltrim('  abcd   ')),length(rtrim(' xyz     ')) from dual;
+select substr ('welcome',4,3) from dual;
+select instr('welcome ','c',1 )from dual;
+---------------------------------------------------------------------------------
+//Mathematical Function
+select round(52.3),trunc(21.1234,1) from dual;
+select power(2,4) from dual;
+select round(52.5) from dual;
+select cos(1), sin(1), floor (12.3),ceil(12.3) from dual;
+select sqrt(16)from dual;
+--------------------------------------------------------------------
+
+// Date Function
+select sysdate from dual; ----->todays date
+select sysdate , to_char(sysdate,'day-month-year') from dual;
+select months_between(sysdate ,'5-AUG-2003') from dual;
+select round(months_between(sysdate ,'5-AUG-2003'))/12 from dual;
+select add_months(sysdate,12) from dual;
+select nvl(null,0) from dual;---->replace null value of that column to any other value
+------------------------------------------------------------------------------------------
+Aggregate function
+select count(*) ,min(salary), max(salary),avg(salary), sum(salary) from emp2 ;
+--------------------------------------------------------------------------------------------------
+//Group by clause 
+ select deptno , count(*), min(salary),max(salary),avg(salary),sum(salary) from emp2  group by deptno ;
+--------------------------------------------------------------------------------------------------------
+// system -- hr
+//password --hr
+--------------------------------------------------------------------------------------------------------
+select deptno , count(*) from emp2 group by deptno having count(*)>40;
+-------------------------------------------------------------------------------------------------
+*Joins // drpo table _name_
+---> Join is used to fetch data from more than one table
+---> Types of join : 1.inner join
+                                   2.
+create table dept
+(
+deptno number(5) primary key,
+dname varchar2(20),
+loc varchar2(20)
+);
+insert into dept values(10,'Testing','Mumbai');
+insert into dept values(20,'Dev', 'Pune');
+insert into dept values(50,'HR' ,'Pune');
+create table employe
+(
+empno number(5) primary key,
+ ename varchar2(20),
+salary float,
+deptno number(5)
+);
+insert into employe values(1,'Ram', 10000,10);
+insert into employe values(2,'Prasad', 20000,20);
+insert into employe values(3,'Ganesh', 20000,20);
+
+-------------------------------------------------------------------------------------------
+*Innert join   // common data from both side
+ select  e.ename ,e.deptno , d.dname from employe e,dept d where e.deptno=d.deptno;
+-----------------------------------------------------------------------------------------------
+*Left outer join  //  all from left and matching from right
+ select e.ename, e.deptno, d.dname from employe e left outer join dept d on e.deptno= d.deptno;
+
+select d.dname , d.loc ,e.ename ,e.deptno from dept d left outer join employe e on e.deptno =d. deptno;
+---------------------------------------------------------------------------------------------------------
+* Right outer join  /// all from right and matching from left
+select e.ename , d.dname , d.deptno from employe e right outer join dept d on e. deptno=d.deptno;
+-----------------------------------------------------------------------------------------------
+*Full join    // all from both left and right
+select e.deptno,e.deptno, d.deptno , d.dname from employe e full join dept d on e.deptno=d.deptno;
+----------------------------------------------------------------------------------------------------------
+* Cross join   // like cartesian cross product
+select * from employe , dept;
+select b.first_name from emp2 a, emp2 b where a.empno=7 and a.deptno=b.deptno;
+-------------------------------------------------------------------------------------------
+* self join   // connected to itself
+select b.first_name from emp2 a, emp2 a, emp2 b where a.empno=7 and a. deptno=b.deptno;
+------------------------------------------------------------------------------------------------------
+*  drop table table_name; ----->if table is already created then to reuse that table we use this
+--------------------------------------------------------------------------------------------------------
+*    cl scr ;  -------------------------> use to clear previous work done in sql runner
+----------------------------------------------------------------------------------------------------------
+
+*    ALTER USER hr IDENTIFIED BY hr ACCOUNT UNLOCK;    ---->for hr alter
+ *alter user account unlock;---->another way
+---------------------------------------------------------------------------------------------------------------------
+* sub query
+----------------------------------------------------------------------------------------------------------------------
+* select * from employe where salary>any (select salary from employe where deptno=10)  --->single  row subquery
+------------------------------------------------------------------------------------------------------------------------
+*select ename ,empno from employe where(deptno ,salary ) in (select deptno ,max(salary) from employe group by deptno);
+----->multi line subquery
+-------------------------------------------------------------------------------------------------------------------------
+* SELECT first_name,
+       last_name,                      ------->subquery in hr;
+       salary,
+       department_id
+  FROM employees
+  WHERE salary IN (SELECT MIN(salary)
+                     FROM employees
+                     GROUP BY department_id);
+---------------------------------------------------------------------------------------------------------------------------
+*select * from tabs;   ---->for taking table from hr table
+departments , jobs , employees -->these tables are present there....
+------------------------------------------------------------------------------------------------
+* view 
+create or replace view v1
+as 
+select ename , salary  from employe;
+select ename , salary from employe ;
+update employe set ename ='abcd' where empno =5;
+create or replace view v2
+as select  * from employee where salary > All (select saalry from employee where deptno=10);
+drop view v1;
+-----------------------------------------------------------------------------------------------------------------------------
+*Indexes
+*indexes are used to make queries efficiently
+*Indexes are created in existing table to locate the rows more quickly and efficiently.
+*It is posssible to create an index on one or more columns of a table and each index is given  a name 
+*The users cannot see the indexes , they are just used to speed and queries .
+* to create index or table name or column name .
+* create index emp_index on emp();
+
+* There are two types of index  ---1. Cluster index and 2. Non cluster index .
+--------------------------------------------------------------------------------------------------------------------------------------
+*JDBC students table
+create table students
+(
+rollno number (5) primary key ,
+name varchar2(20) not null,  
+perc float(5)
+);
+insert into students values(101 , 'Ganesh',99.9);
+insert into students values(102 , 'Ram',94.9);
+
+insert into students values(103 , 'Mahesh',95.9);
+
+---------------------------------------------------------------------------------------------------------------------------------
+// input :  desc students;
+output:-
+  Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ROLLNO                                    NOT NULL NUMBER(5)
+ NAME                                      NOT NULL VARCHAR2(20)
+ PERC                                               FLOAT(5)
+-------------------------------------------------------------------------------
+create table Product
+(
+prodId number (5) primary key ,
+prodName varchar2(20) not null,  
+prodPrice float(5),
+prodQty number(5)
+);
+
+
+
+
+
+
