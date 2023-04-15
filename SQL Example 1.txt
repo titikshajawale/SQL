@@ -1,0 +1,30 @@
+create table Teacher
+(
+rollno number (5) primary key ,
+first_name varchar2(20) not null,  ---->constrints
+email_id varchar2(20),
+city varchar2(20)
+);
+insert into Teacher values(101 , 'Ganesh','ganesh@abc','Pune');
+select * from Teacher;
+
+// department table
+CREATE TABLE deptment
+(
+deptno1234 number(2) constraint deptment_deptno1234_pk3 PRIMARY KEY,
+dname varchar2(20) NOT NULL,
+loc varchar2(10)
+);
+insert into deptment values(10,'Account','Chennai');
+CREATE TABLE employee 
+(
+empno NUMBER(6) constraint emp_empno_pk4 PRIMARY KEY ,
+ename VARCHAR2(30) not null,
+grade CHAR(2) default 'A',
+dob DATE CHECK (dob <'1-jan-2000'),
+email varchar2(20) constraint u_em_email UNIQUE,
+deptno1234 number(2) REFERENCES deptment(deptno1234)
+);
+insert into employee values (101,'Ramesh','A','1-jan-1999','abc@gmail.con',10);
+insert into employee values (102 ,'Suresh',default ,'1-jan-1999','xyz@gmail.com',10);
+
